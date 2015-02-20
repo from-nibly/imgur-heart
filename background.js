@@ -49,7 +49,11 @@ var ups;
 var downs;
 function updateVoteBar(){
 window.setTimeout(function(){
+  if(window.location.href.indexOf("https") > -1){
+    var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
+  }else{
   var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
+  }
 	var apiUrl;
 
 	if($("title").html().indexOf("Album") > -1){
