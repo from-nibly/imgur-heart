@@ -18,9 +18,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #humanMsg .favorited {
 
-	/*background: url(chrome-extension://kcdgmpophadgjfkjdefoinnbnikhlone/img/sprites.png) no-repeat scroll -324px -5px transparent;*/
+	background: url(chrome-extension://kcdgmpophadgjfkjdefoinnbnikhlone/img/sprites.png) no-repeat scroll -324px -5px transparent;
 
-	background: url(chrome-extension://ggaoapafmgkmbebjamdbmclddmohgpan/img/sprites.png) no-repeat scroll -324px -5px transparent !important;
 }
 
 .favorite-image.favorited, .favorite-image:active {
