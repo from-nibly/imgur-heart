@@ -11,7 +11,7 @@ $(document).ready(function() {
 
   var points = $(".stats-link.left");
   points.after('<div class="tag-holder"></div>');
-
+  generateTags();
 });
 
 function generateTags() {
