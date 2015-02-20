@@ -41,15 +41,22 @@ window.onload = function(){
 
 window.setTimeout(function(){
   var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
+	var apiUrl;
+
+	if($("title").html().indexOf("Album") > -1){
+		apiUrl = 'https://api.imgur.com/3/gallery/album/'+imageID+'/votes'
+	}else{
+		apiUrl = 'https://api.imgur.com/3/gallery/image/'+imageID+'/votes'
+	}
 
   $.ajax
 ({
   type: "GET",
-  url: "https://api.imgur.com/3/gallery/image/"+imageID+"/votes",
+  url: apiUrl,
   dataType: 'json',
   async: true,
   headers: {
-    "Authorization": "Client-ID " + "d25fe2851fe0e96"
+    "Authorization": " Client-ID " + "d25fe2851fe0e96"
   },
   success: function (result){
 
