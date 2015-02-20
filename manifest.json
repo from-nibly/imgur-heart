@@ -10,7 +10,7 @@
     "default_icon": "img/icon.png"
   },
   "content_scripts": [{
-    "css": ["background.css"],
+    "css": ["background.css", "bootstrap.css"],
     "js": ["jquery.js", "background.js"],
     "matches": ["http://imgur.com/*", "https://imgur.com/*", "http://*.imgur.com/*", "https://*.imgur.com/*"]
   }],
