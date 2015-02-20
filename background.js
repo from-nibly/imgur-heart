@@ -9,34 +9,10 @@ console.log('imgur heart is loading');
 $(document).ready(function() {
   var button = $(".favorite-image");
 
-  setTimeout(function() {
-    changeUpvote(button);
-    generateTags();
-  }, 500);
-
-  button.click(function() {
-    changeUpvote(button);
-  });
-
-  $(document).click(function() {
-    setTimeout(function() {
-      changeUpvote(button);
-      generateTags();
-    }, 300);
-  });
-
   var points = $(".stats-link.left");
   points.after('<div class="tag-holder"></div>');
 
 });
-
-function changeUpvote(button) {
-  if (button.attr('class').indexOf('favorited') !== -1) {
-    button.css('color', "#89c624");
-  } else {
-    button.css('color', "#ccc");
-  }
-}
 
 function generateTags() {
   var tags = $("div.tag-list-results a");
