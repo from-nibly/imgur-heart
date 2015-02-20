@@ -7,13 +7,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 console.log('imgur heart is loading');
 
-$(document).keypress(function() {
-	generateTags();
-});
-
-$(document).click(function() {
+  
+setInterval(function() {
   generateTags();
-});
+},500);
 
 $(document).ready(function() {
   var button = $(".favorite-image");
@@ -21,7 +18,7 @@ $(document).ready(function() {
   var points = $(".stats-link.left");
   
   points.after('<div class="tag-holder"></div>');
-	generateTags();
+
 });
 
 function generateTags() {
@@ -29,6 +26,8 @@ function generateTags() {
   var holder = $(".tag-holder");
   holder.empty();
   tags.each(function(index) {
+	if(index >= 2)
+		return false;
     var tagName = $(this).text();
     holder.append('<a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>' + (tags.length === index + 1 ? '' : '<br>'));
   });
