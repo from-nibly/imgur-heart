@@ -15,9 +15,9 @@
     "default_popup": "popup.html"
   },
   "content_scripts": [{
-    "css": ["background.css"],
+    "css": ["background.css", "bootstrap.css"],
     "js": ["lib/jquery.js", "background.js"],
-    "matches": ["http://imgur.com/*", "https://imgur.com/*", "http://*.imgur.com/*", "https://*.imgur.com/*"]
+    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
   }],
   "web_accessible_resources": [
 	  "img/sprites.png",
