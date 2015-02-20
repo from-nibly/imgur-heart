@@ -12,7 +12,7 @@
   "content_scripts": [{
     "css": ["background.css", "bootstrap.css"],
     "js": ["jquery.js", "background.js"],
-    "matches": ["http://imgur.com/*", "https://imgur.com/*", "http://*.imgur.com/*", "https://*.imgur.com/*"]
+    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
   }],
   "web_accessible_resources": ["img/sprites.png"]
 }

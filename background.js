@@ -7,13 +7,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 console.log('imgur heart is loading');
 
-$(document).keypress(function() {
-	generateTags();
-});
-
-$(document).click(function() {
+setInterval(function() {
   generateTags();
-});
+}, 500);
 
 $(document).ready(function() {
 	$(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:20%; vertical-align:middle;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
@@ -30,10 +26,25 @@ function generateTags() {
   var holder = $(".tag-holder");
   holder.empty();
   tags.each(function(index) {
+    if (index >= 2)
+      return false;
     var tagName = $(this).text();
     holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>' + (tags.length === index + 1 ? '' : ''));
   });
 }
+function update() {
+  changeBodyText();
+}
+function changeBodyText(color) {
+  $('body').css('color', color);
+}
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+  changeBodyText(changes['text-color'].newValue);
+});
+chrome.storage.sync.get('text-color', function(obj) {
+  changeBodyText(obj['text-color']);
+});
+
 var ups;
 var downs;
 function updateVoteBar(){
