@@ -26,6 +26,8 @@ function generateTags() {
   var holder = $(".tag-holder");
   holder.empty();
   tags.each(function(index) {
+	if(index >= 2)
+		return false;
     var tagName = $(this).text();
     holder.append('<a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>' + (tags.length === index + 1 ? '' : '<br>'));
   });
