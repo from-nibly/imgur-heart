@@ -2,18 +2,16 @@
   "manifest_version": 2,
 
   "name": "imgur heart",
-  "description": "this changes the imgur heart color",
-  "version": "1.1",
+  "description": "Changes the imgur heart color back to green",
+  "version": "1.2",
   "browser_action": {
     "name": "bring back heart",
-    "icons": [ "img/icon.png" ],
+    "icons": ["img/icon.png"],
     "default_icon": "img/icon.png"
   },
-  "content_scripts": [
-    {
-      "css": [ "background.css" ],
-      "js": [ "jquery.js", "background.js" ],
-      "matches": [ "http://imgur.com/*", "https://imgur.com/*" ]
-    }
-  ]
-  }
+  "content_scripts": [{
+    "css": ["background.css"],
+    "js": ["jquery.js", "background.js"],
+    "matches": ["http://imgur.com/*", "https://imgur.com/*"]
+  }]
+}
