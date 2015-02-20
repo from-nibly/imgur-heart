@@ -1,32 +1,30 @@
 // Saves options to chrome.storage
 function save_options() {
-	var color = $('#color').val();
-	var likesColor = $('like').attr("checked");
-	chrome.storage.sync.set({
-		favoriteColor: color,
-		likesColor: likesColor
-	}, function() {
-    // Update status to let user know options were saved.
-    var status = $('#status');
-	status.text('Options saved.');
-    setTimeout(function() {
-		status.text('');
-	}, 750);
-  });
+	$('#options-list li input[type="checkbox"]').each(function() {
+		var obj = {};
+		var check = $(this);
+		obj[$(this).attr('id')] = $(this).prop("checked");
+		chrome.storage.sync.set( obj );
+	});
 }
 
 // Restore options from chrome.storage
 function restore_options() {
-  chrome.storage.sync.get({
-    favoriteColor: 'red',
-    likesColor: true
-  }, function(items) {
-	  $('#color').val(items.favoriteColor);
-	  $('#like').attr("checked", items.likesColor);
-  });
+	$('#options-list li input[type="checkbox"]').each(function() {
+		var obj = {};
+		var check = $(this);
+		obj[$(this).attr('id')] = 1;
+		chrome.storage.sync.get( obj, 
+			function(item) {
+				$("#"+check.attr('id')).prop("checked", item[check.attr('id')]);
+			}
+		);
+	});
 }
 
+// initiate and set event handlers
 $(document).ready(function() {
+	$('#options-list li').click(function () {$(this).find('input').click();});
 	restore_options();
 	$('#save').click(save_options);
 });

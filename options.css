@@ -16,6 +16,10 @@
 	padding: 4px 0;
 }
 
+#options-list li:hover {
+	background-color: #ffffcd !important;
+}
+
 #options-list li:nth-child(2n) {
 	width: 100%;
 	background-color: #b7b7b7;
