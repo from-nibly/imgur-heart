@@ -36,9 +36,7 @@ function generateTags() {
 }
 var ups;
 var downs;
-
-window.onload = function(){
-
+function updateVoteBar(){
 window.setTimeout(function(){
   var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
 	var apiUrl;
@@ -77,3 +75,9 @@ window.setTimeout(function(){
 });
 }, 50);
 }
+window.onload = function(){
+updateVoteBar();
+}
+$("#image").bind("DOMSubtreeModified", function(){
+	updateVoteBar();
+});
