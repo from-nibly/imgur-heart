@@ -16,11 +16,10 @@ $(document).ready(function() {
   });
 
   function onSave() {
-    var value = textColor.val();
-    console.log('saving to storage', value);
+    var textValue = textColor.val();
 
     chrome.storage.sync.set({
-      'text-color': value
+      'text-color': textValue
     }, function() {
       console.log('saved to storage');
     });
