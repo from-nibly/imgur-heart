@@ -7,6 +7,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 console.log('imgur heart is loading');
 
+  
+setInterval(function() {
+  generateTags();
+},500);
+
 $(document).ready(function() {
   var button = $(".favorite-image");
 
@@ -14,9 +19,6 @@ $(document).ready(function() {
   
   points.after('<div class="tag-holder"></div>');
 
-  $(document).setInterval(function() {
-  	generateTags();
-  },1000);
 });
 
 function generateTags() {
