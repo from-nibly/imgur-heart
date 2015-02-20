@@ -7,12 +7,16 @@
   "browser_action": {
     "name": "bring back heart",
     "icons": ["img/icon.png"],
-    "default_icon": "img/icon.png"
+    "default_icon": "img/icon.png",
+    "default_popup": "popup.html"
   },
   "content_scripts": [{
     "css": ["background.css"],
-    "js": ["jquery.js", "background.js"],
+    "js": ["lib/jquery.js", "background.js"],
     "matches": ["http://imgur.com/*", "https://imgur.com/*", "http://*.imgur.com/*", "https://*.imgur.com/*"]
   }],
-  "web_accessible_resources": ["img/sprites.png"]
+  "web_accessible_resources": ["img/sprites.png"],
+  "permissions": [
+    "storage"
+  ]
 }
