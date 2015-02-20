@@ -4,6 +4,10 @@
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
   "version": "1.4",
+  "options_page": "options.html",
+  "permissions": [
+  	"storage"
+  ],
   "browser_action": {
     "name": "bring back heart",
     "icons": ["img/icon.png"],
@@ -15,8 +19,8 @@
     "js": ["lib/jquery.js", "background.js"],
     "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
   }],
-  "web_accessible_resources": ["img/sprites.png"],
-  "permissions": [
-    "storage"
+  "web_accessible_resources": [
+	  "img/sprites.png",
+	  "css/greenheart.css"
   ]
 }

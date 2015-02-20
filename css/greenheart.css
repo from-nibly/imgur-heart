@@ -1,0 +1,7 @@
+#humanMsg .favorited {
+	background: url(chrome-extension://kcdgmpophadgjfkjdefoinnbnikhlone/img/sprites.png) no-repeat scroll -324px -5px transparent;
+}
+
+.favorite-image.favorited, .favorite-image:active {
+	color:rgb(137, 198, 36) !important;
+}
