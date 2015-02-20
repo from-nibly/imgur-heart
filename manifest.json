@@ -19,5 +19,8 @@
     "js": ["lib/jquery.js", "background.js"],
     "matches": ["http://imgur.com/*", "https://imgur.com/*", "http://*.imgur.com/*", "https://*.imgur.com/*"]
   }],
-  "web_accessible_resources": ["img/sprites.png"]
+  "web_accessible_resources": [
+	  "img/sprites.png",
+	  "css/greenheart.css"
+  ]
 }
