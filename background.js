@@ -80,4 +80,5 @@ updateVoteBar();
 }
 $("#image").bind("DOMSubtreeModified", function(){
 	updateVoteBar();
+	generateTags();
 });
