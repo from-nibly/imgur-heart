@@ -4,6 +4,10 @@
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
   "version": "1.3",
+  "options_page": "options.html",
+  "permissions": [
+  	"storage"
+  ],
   "browser_action": {
     "name": "bring back heart",
     "icons": ["img/icon.png"],

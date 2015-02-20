@@ -1,0 +1,30 @@
+
+
+#options-list {
+	border:1px solid grey;
+	border-radius: 10px;
+	width:25%;
+	padding: 0;
+	overflow: hidden;
+}
+
+#options-list li {
+	list-style: none;
+	background-color: #cfcfcf;
+	overflow: hidden;
+	width: 100%;
+	padding: 4px 0;
+}
+
+#options-list li:nth-child(2n) {
+	width: 100%;
+	background-color: #b7b7b7;
+}
+
+#options-list li span {
+	padding-left: 10px;
+}
+
+#options-list li input {
+	float: right;
+}
