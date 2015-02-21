@@ -23,7 +23,7 @@
   "content_scripts": [{
     "css": ["background.css", "bootstrap.css"],
     "js": ["lib/jquery.js", "background.js"],
-    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
+    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*", "http://imgur.com/t/*", "https://imgur.com/t/*", "http://*.imgur.com/t/*", "https://*.imgur.com/t/*"]
   }],
   "web_accessible_resources": [
     "img/sprites.png",
