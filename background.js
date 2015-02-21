@@ -12,6 +12,7 @@ var options = {};
 options['tag-links'] = true;
 options['green-heart'] = true;
 options['upvote-bar'] = true;
+options['upvote-bar-text'] = true;
 options['op-edit'] = false;
 options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
@@ -51,41 +52,41 @@ $(document).ready(function() {
 });
 
 function generateTags() {
-  if(!tagsGenerated){
-  if (window.location.href.indexOf("https") > -1) {
-    var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
-  } else {
-    var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
-  }
-
-  var apiUrl;
-
-  if ($("body").html().indexOf("album-image") > -1) {
-    apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags'
-  } else {
-    apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/tags'
-  }
-
-  $.ajax({
-    type: "GET",
-    url: apiUrl,
-    dataType: 'json',
-    async: true,
-    headers: {
-      "Authorization": " Client-ID " + "0c2560fe72fedb9"
-    },
-    success: function(result) {
-      var holder = $(".tag-holder");
-      holder.empty();
-      for(i = 0; i < result.data.tags.length; i ++){
-      console.log(result.data.tags[i].name);
-      tagName = result.data.tags[i].name;
-      tagsGenerated = true;
-      holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
+  if (!tagsGenerated) {
+    if (window.location.href.indexOf("https") > -1) {
+      var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
+    } else {
+      var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
     }
+
+    var apiUrl;
+
+    if ($("body").html().indexOf("album-image") > -1) {
+      apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags'
+    } else {
+      apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/tags'
     }
-  });
-}
+
+    $.ajax({
+      type: "GET",
+      url: apiUrl,
+      dataType: 'json',
+      async: true,
+      headers: {
+        "Authorization": " Client-ID " + "0c2560fe72fedb9"
+      },
+      success: function(result) {
+        var holder = $(".tag-holder");
+        holder.empty();
+        for (i = 0; i < result.data.tags.length; i++) {
+          console.log(result.data.tags[i].name);
+          tagName = result.data.tags[i].name;
+          tagsGenerated = true;
+          holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
+        }
+      }
+    });
+  }
 }
 
 function update() {
@@ -142,7 +143,9 @@ function updateVoteBar() {
 
 
         $(".progress-bar-success").css("width", percentUp + "%");
-        $(".progress-bar-success").html(ups + "/" + downs);
+        if (options['upvote-bar-text']) {
+          $(".progress-bar-success").html(ups + "/" + downs);
+        }
 
         $(".progress-bar-danger").css("width", percentDown + "%");
 
@@ -160,9 +163,8 @@ $("#image").bind("DOMSubtreeModified", function() {
 });
 $("#captions").bind("DOMSubtreeModified", function() {
   if (options['op-edit'] == true) {
-    $("#captions span.green").each(function( index ) {
-      if (this.innerHTML === "OP")
-      {
+    $("#captions span.green").each(function(index) {
+      if (this.innerHTML === "OP") {
         this.innerHTML = options['op-text'];
         this.setAttribute('style', 'color: ' + options['op-color'] + ' !important;');
       }
