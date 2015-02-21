@@ -73,6 +73,7 @@ function generateTags() {
   //we can call this as many times as we want and it will just get the cache if it exists.
   //no more unexplained extra api calls. :)
   //also less messy code in our business logic.
+
   api.getTags(imageID, imageType, function(result) {
     console.log('results from getting tags', result);
     var holder = $(".tag-holder");
@@ -135,24 +136,18 @@ function updateVoteBar() {
         "Authorization": " Client-ID " + apiKey
       },
       success: function(result) {
-
         ups = result.data.ups;
         downs = result.data.downs;
-
         percentUp = ((ups) / (ups + downs)) * 100;
-
-
         percentDown = ((downs) / (ups + downs)) * 100;
 
-
-
         $(".progress-bar-success").css("width", percentUp + "%");
+
         if (options['upvote-bar-text']) {
           $(".progress-bar-success").html(ups + "/" + downs);
         }
 
         $(".progress-bar-danger").css("width", percentDown + "%");
-
       }
     });
   }, 50);
@@ -162,7 +157,16 @@ $("#image").bind("DOMSubtreeModified", function() {
   getImageProperties();
   updateVoteBar();
   generateTags();
+
 });
+
+$(document).ready(function(){
+  tagsGenerated = false;
+  getImageProperties();
+  updateVoteBar();
+  generateTags();
+});
+
 $("#captions").bind("DOMSubtreeModified", function() {
   if (options['op-edit'] == true) {
     $("#captions span.green").each(function(index) {
