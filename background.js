@@ -14,6 +14,7 @@ options['green-heart'] = true;
 options['upvote-bar'] = true;
 options['op-edit'] = false;
 options['op-text'] = "OP";
+options['op-color'] = "#FF88DD";
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -136,8 +137,7 @@ $("#captions").bind("DOMSubtreeModified", function() {
       if (this.innerHTML === "OP")
       {
         this.innerHTML = options['op-text'];
-        if (options['op-text'].toLowerCase() === "faggot")
-          this.setAttribute('style', 'color: #FF88DD !important;');
+        this.setAttribute('style', 'color: ' + options['op-color'] + ' !important;');
       }
     });
   }
