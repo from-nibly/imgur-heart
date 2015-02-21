@@ -8,3 +8,6 @@ Send Donations to thatoneemail@gmail.com through gmail or paypal. The contributi
 
 ###BETTER YET!!!!!
 Donate your time and become a contributor!  pm me on imgur @fromnibly to get started!
+
+Here is a link to our chrome extension check it out!
+https://chrome.google.com/webstore/detail/imgur-heart/kcdgmpophadgjfkjdefoinnbnikhlone
