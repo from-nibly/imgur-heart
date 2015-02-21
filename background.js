@@ -24,16 +24,15 @@ chrome.storage.sync.get(options, function(data) {
   // Apply changes
   if (options['tag-links'] == true) {
     console.log("tag-links is on");
-    setInterval(function() {
-      generateTags();
-    }, 500);
   }
-  if (options['greenheart'] == true) {
+  if (options['green-heart'] == true) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
   }
 });
 
 $(document).ready(function() {
+
+  var tagsGenerated = false;
   var points;
   if (options['upvote-bar']) {
     $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:20%; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
@@ -50,15 +49,41 @@ $(document).ready(function() {
 });
 
 function generateTags() {
-  var tags = $("div.tag-list-results a");
-  var holder = $(".tag-holder");
-  holder.empty();
-  tags.each(function(index) {
-    if (index >= 2)
-      return false;
-    var tagName = $(this).text();
-    holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>' + (tags.length === index + 1 ? '' : ''));
+  if(!tagsGenerated){
+  if (window.location.href.indexOf("https") > -1) {
+    var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
+  } else {
+    var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
+  }
+
+  var apiUrl;
+
+  if ($("body").html().indexOf("album-image") > -1) {
+    apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags'
+  } else {
+    apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/tags'
+  }
+
+  $.ajax({
+    type: "GET",
+    url: apiUrl,
+    dataType: 'json',
+    async: true,
+    headers: {
+      "Authorization": " Client-ID " + "0c2560fe72fedb9"
+    },
+    success: function(result) {
+      var holder = $(".tag-holder");
+      holder.empty();
+      for(i = 0; i < result.data.tags.length; i ++){
+      console.log(result.data.tags[i].name);
+      tagName = result.data.tags[i].name;
+      tagsGenerated = true;
+      holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
+    }
+    }
   });
+}
 }
 
 function update() {
@@ -88,7 +113,7 @@ function updateVoteBar() {
     }
     var apiUrl;
 
-    if ($("title").html().indexOf("Album") > -1) {
+    if ($("body").html().indexOf("album-image") > -1) {
       apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/votes'
     } else {
       apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/votes'
@@ -100,7 +125,7 @@ function updateVoteBar() {
       dataType: 'json',
       async: true,
       headers: {
-        "Authorization": " Client-ID " + "d25fe2851fe0e96"
+        "Authorization": " Client-ID " + "0c2560fe72fedb9"
       },
       success: function(result) {
 
@@ -125,6 +150,7 @@ window.onload = function() {
   updateVoteBar();
 }
 $("#image").bind("DOMSubtreeModified", function() {
+  tagsGenerated = false;
   updateVoteBar();
   generateTags();
 });

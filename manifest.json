@@ -3,15 +3,22 @@
 
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
-  "version": "1.6",
+  "version": "1.8",
   "options_page": "options.html",
   "permissions": [
     "storage"
   ],
+  "options_ui": {
+    "page": "options.html"
+  },
   "browser_action": {
     "name": "bring back heart",
     "icons": ["img/icon.png"],
     "default_icon": "img/icon.png"
+  },
+  "background": {
+    "scripts": ["event.js"],
+    "persistent": false
   },
   "content_scripts": [{
     "css": ["background.css", "bootstrap.css"],
