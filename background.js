@@ -35,13 +35,12 @@ $(document).ready(function() {
   var tagsGenerated = false;
   var points;
   if (options['upvote-bar']) {
-    $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:20%; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
+    $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:25%; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
     points = $(".progress");
   } else {
     console.log('hiding upvote-bar');
     points = $('.stats-link');
   }
-  console.log('checking points', points);
 
   var button = $(".favorite-image");
   points.after('<div class="tag-holder"></div>');
@@ -140,6 +139,8 @@ function updateVoteBar() {
 
 
         $(".progress-bar-success").css("width", percentUp + "%");
+        $(".progress-bar-success").html(ups + "/" + downs);
+
         $(".progress-bar-danger").css("width", percentDown + "%");
 
       }
