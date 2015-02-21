@@ -12,6 +12,9 @@ var options = {};
 options['tag-links'] = true;
 options['green-heart'] = true;
 options['upvote-bar'] = true;
+options['op-edit'] = false;
+options['op-text'] = "OP";
+options['op-color'] = "#85BF25";
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -153,4 +156,15 @@ $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
   updateVoteBar();
   generateTags();
+});
+$("#captions").bind("DOMSubtreeModified", function() {
+  if (options['op-edit'] == true) {
+    $("#captions span.green").each(function( index ) {
+      if (this.innerHTML === "OP")
+      {
+        this.innerHTML = options['op-text'];
+        this.setAttribute('style', 'color: ' + options['op-color'] + ' !important;');
+      }
+    });
+  }
 });
