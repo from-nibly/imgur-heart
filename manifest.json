@@ -3,7 +3,7 @@
 
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
-  "version": "1.7",
+  "version": "1.8",
   "options_page": "options.html",
   "permissions": [
     "storage"
@@ -21,7 +21,7 @@
     "persistent": false
   },
   "content_scripts": [{
-    "css": ["bootstrap.css"],
+    "css": ["background.css", "bootstrap.css"],
     "js": ["lib/jquery.js", "background.js"],
     "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
   }],
