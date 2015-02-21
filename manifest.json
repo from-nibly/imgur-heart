@@ -9,8 +9,7 @@
     "storage"
   ],
   "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
+    "page": "options.html"
   },
   "browser_action": {
     "name": "bring back heart",
