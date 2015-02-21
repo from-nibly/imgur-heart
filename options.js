@@ -12,15 +12,18 @@ function save_options() {
     var obj = {};
     var check = $(this);
     obj[$(this).attr('id')] = $(this).prop("checked");
-    chrome.storage.sync.set(obj);
+
+	chrome.storage.sync.set(obj);
   });
   $('#options-list input[type="text"]').each(function() {
     var obj = {};
     var value = $(this).val();
-    console.log('saving', value);
     obj[$(this).attr('id')] = value;
-    chrome.storage.sync.set(obj);
+	chrome.storage.sync.set(obj);
   });
+
+  $('#status').text("Saved").slideDown();
+  setTimeout(function() {$('#status').slideUp(function() {$(this).text("");})}, 3000);
 }
 
 // Restore options from chrome.storage
@@ -29,7 +32,6 @@ function restore_options() {
     var obj = {};
     var check = $(this);
     obj[$(this).attr('id')] = 1;
-    console.log('restoring', obj);
     chrome.storage.sync.get(obj,
       function(item) {
         $("#" + check.attr('id')).prop("checked", item[check.attr('id')]);
@@ -40,10 +42,8 @@ function restore_options() {
     var obj = {};
     var text = $(this);
     obj[$(this).attr('id')] = $(this).text();
-    console.log('restoring', obj);
     chrome.storage.sync.get(obj,
       function(item) {
-        console.log('restoring finally', item[text.attr('id')]);
         $("#" + text.attr('id')).prop("value", item[text.attr('id')]);
       }
     );

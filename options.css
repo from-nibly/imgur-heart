@@ -6,35 +6,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#options-list {
-	border:1px solid grey;
+#content-wrapper {
+	width: 50%;
+	min-width: 550px;
+	margin: auto;
+}
+
+#status {
+	display: none;
+	width: 100%;
+	padding: 5px 2px;
+	text-align: center;
+	border: 2px solid rgb(0, 63, 0);
+	background-color: rgb(73, 184, 73);
+	margin-bottom: 15px;
 	border-radius: 10px;
-	width:25%;
-	padding: 0;
-	overflow: hidden;
-}
-
-#options-list li {
-	list-style: none;
-	background-color: #cfcfcf;
-	overflow: hidden;
-	width: 100%;
-	padding: 4px 0;
-}
-
-#options-list li:hover {
-	background-color: #ffffcd !important;
-}
-
-#options-list li:nth-child(2n) {
-	width: 100%;
-	background-color: #b7b7b7;
-}
-
-#options-list li span {
-	padding-left: 10px;
-}
-
-#options-list li input {
-	float: right;
+	color: white;
 }
