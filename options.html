@@ -1,23 +1,53 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Imgur <3</title>
-		<link rel="stylesheet" href="options.css" />
-	</head>
-<body>
-	<div id="status"></div>
 
-	<ul id="options-list">
-		<li><span>Tag links</span>
-			<input type="checkbox" id="taglinks">
-		</li>
-		<li><span>Green heart</span>
-			<input type="checkbox" id="greenheart">
-		</li>
-	</ul>
-	<button id="save">Save</button>
-	
-	<script src="lib/jquery.js"></script>
-	<script src="options.js"></script>
+<head>
+    <title>Imgur
+        <3</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+            <script type="text/javascript" src="lib/jquery.js"></script>
+            <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div id="status"></div>
+
+    <h1>Imgur Heart Settings</h1>
+    <div class="well">
+        <form id="options-list">
+            <div class="form-group">
+                <label for="text-color">Text Color</label>
+                <input type="text" class="form-control" id="text-color" placeholder="any html valid color">
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="tag-links">Tag Links
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="green-heart">Green Heart
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="upvote-bar">Upvote Bar
+                    </label>
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-primary" id="save">Save</button>
+    </div>
+
+
+    <script src="lib/jquery.js"></script>
+    <script src="options.js"></script>
 </body>
+
 </html>

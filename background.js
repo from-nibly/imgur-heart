@@ -9,36 +9,44 @@ console.log('imgur heart is loading');
 
 var options = {};
 // default settings
-options['taglinks'] 		= true;
-options['greenheart'] 		= true;
+options['tag-links'] = true;
+options['green-heart'] = true;
+options['upvote-bar'] = true;
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
-	var keys = Object.keys(data);
-	keys.forEach(function(elm, index) {
-		options[elm] = data[elm];
-	});
+  var keys = Object.keys(data);
+  keys.forEach(function(elm, index) {
+    options[elm] = data[elm];
+  });
 
-	
-	// Apply changes
-	if(options['taglinks'] == true) {	
-		console.log("taglinks is on");
-		setInterval(function() {
-			generateTags();
-		}, 500);
-	}
-	if(options['greenheart'] == true) {
-		$('head').append('<link rel="stylesheet" href="'+chrome.extension.getURL('css/greenheart.css')+'" />');
-	}
+
+  // Apply changes
+  if (options['tag-links'] == true) {
+    console.log("tag-links is on");
+    setInterval(function() {
+      generateTags();
+    }, 500);
+  }
+  if (options['greenheart'] == true) {
+    $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
+  }
 });
 
 $(document).ready(function() {
-	$(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:20%; vertical-align:middle;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
-	var points = $(".progress");
+  var points;
+  if (options['upvote-bar']) {
+    $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:20%; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
+    points = $(".progress");
+  } else {
+    console.log('hiding upvote-bar');
+    points = $('.stats-link');
+  }
+  console.log('checking points', points);
 
-	var button = $(".favorite-image");
-	points.after('<div class="tag-holder"></div>');
-	
+  var button = $(".favorite-image");
+  points.after('<div class="tag-holder"></div>');
+
 });
 
 function generateTags() {
