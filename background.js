@@ -9,6 +9,7 @@ console.log('imgur heart is loading');
 
 var options = {};
 // default settings
+options['text-color'] = '#ddddd1';
 options['tag-links'] = true;
 options['green-heart'] = true;
 options['upvote-bar'] = true;
