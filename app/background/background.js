@@ -56,45 +56,49 @@ $(document).ready(function() {
 
   var button = $(".favorite-image");
   points.after('<div class="tag-holder"></div>');
+  console.log('checking points', points);
 
 });
 
 function generateTags() {
-  if (!tagsGenerated) {
-    if (window.location.href.indexOf("https") > -1) {
-      var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
-    } else {
-      var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
-    }
 
-    var apiUrl;
+  //right here we can get tags
 
-    if ($("body").html().indexOf("album-image") > -1) {
-      apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags'
-    } else {
-      apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/tags'
-    }
+  //so we just grab the instance of api.  (we need to keep the same instance for the cache to work)
 
-    $.ajax({
-      type: "GET",
-      url: apiUrl,
-      dataType: 'json',
-      async: true,
-      headers: {
-        "Authorization": " Client-ID " + "de391aff98092db"
-      },
-      success: function(result) {
-        var holder = $(".tag-holder");
-        holder.empty();
-        for (i = 0; i < result.data.tags.length; i++) {
-          console.log(result.data.tags[i].name);
-          tagName = result.data.tags[i].name;
-          tagsGenerated = true;
-          holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
-        }
-      }
-    });
+  //first we need the image id
+  var imageID;
+  if (window.location.href.indexOf("https") > -1) {
+    var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
+  } else {
+    var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
   }
+
+
+  //then we need the type of image we are grabbing (gallery or image)
+
+  var type;
+
+  if ($("body").html().indexOf("album-image") > -1) {
+    type = 'album';
+  } else {
+    type = 'image';
+  }
+  //we can call this as many times as we want and it will just get the cache if it exists.
+  //no more unexplained extra api calls. :)
+  //also less messy code in our business logic.
+  api.getTags(imageID, type, function(result) {
+    console.log('results from getting tags', result);
+    var holder = $(".tag-holder");
+    console.log('checking holder', holder);
+    holder.empty();
+    for (i = 0; i < result.data.tags.length; i++) {
+      console.log(result.data.tags[i].name);
+      tagName = result.data.tags[i].name;
+      tagsGenerated = true;
+      holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
+    }
+  });
 }
 
 function update() {
@@ -198,21 +202,22 @@ function API(key) {
     return newValue;
   }
 
-  this.getTags(imageId, type, callback) {
+  this.getTags = function(imageId, type, callback) {
     return getThing(imageId, type, 'tags', callback)
   }
 
-  this.getVotes(imageId, type, callback) {
+  this.getVotes = function(imageId, type, callback) {
     return getThing(imageId, type, 'votes', callback)
   }
 
   function getThing(imageId, type, thing, callback) {
-    var cached = getCachedObject(imgageId);
+    var cached = getCachedObject(imageId);
     if (cached[thing]) {
       callback(cached[thing]);
+      console.log('getting from cache');
       return;
     }
-    var apiUrl = 'https://api.imgur.com/3/gallery/' + type + '/' + imageID + '/' + thing;
+    var apiUrl = 'https://api.imgur.com/3/gallery/' + type + '/' + imageId + '/' + thing;
     $.ajax({
       type: "GET",
       url: apiUrl,
@@ -220,15 +225,17 @@ function API(key) {
       async: true,
       headers: {
         "Authorization": " Client-ID " + key
-      },
-      success: function(result) {
-        cached[thing] = result;
-        callback(cached[thing]);
       }
+    }).done(function(result) {
+      console.log('got from api');
+      cached[thing] = result;
+      callback(cached[thing]);
+    }).fail(function(message) {
+      console.log('failed to get data', message);
     });
   }
 
-  this.clear() {
+  this.clear = function() {
     cache = {};
   }
 
