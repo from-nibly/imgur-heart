@@ -14,7 +14,7 @@ options['green-heart'] = true;
 options['upvote-bar'] = true;
 options['op-edit'] = false;
 options['op-text'] = "OP";
-options['op-color'] = "#FF88DD";
+options['op-color'] = "#85BF25";
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
