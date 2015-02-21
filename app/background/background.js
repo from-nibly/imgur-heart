@@ -174,3 +174,49 @@ $("#captions").bind("DOMSubtreeModified", function() {
     });
   }
 });
+
+function API(key) {
+
+  var cache = [];
+
+  function getCachedObject(imgageId) {
+    for (var x in cache) {
+      if (cache[x].imageId === imgageId) {
+        return cache[x];
+      }
+    }
+    var newValue = {};
+    newValue.imageId = imgageId;
+    cache.push(newValue);
+    if (cache.length > 30) {
+      cache.shift();
+    }
+    return newValue;
+  }
+
+  this.getTags(imageId, callback) {
+    var cached = getCachedObject(imgageId);
+    if (cached.tags) {
+      return cached.tags;
+    }
+    var apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags';
+    $.ajax({
+      type: "GET",
+      url: apiUrl,
+      dataType: 'json',
+      async: true,
+      headers: {
+        "Authorization": " Client-ID " + key
+      },
+      success: function(result) {
+        cached.tags = result;
+        callback(cached.tags);
+      }
+    });
+  }
+
+  this.clear() {
+    cache = {};
+  }
+
+};
