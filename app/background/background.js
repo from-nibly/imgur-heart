@@ -47,7 +47,7 @@ $(document).ready(function() {
   var tagsGenerated = false;
   var points;
   if (options['upvote-bar']) {
-    $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:25%; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
+    $(".stats-link").after('<div class="progress" style="display:inline-block; width:20%; height:10px; vertical-align:middle; margin-left:15px;"><div class="progress-bar progress-bar-success" role="progressbar"></div><div class="progress-bar progress-bar-danger" role="progressbar"></div></div>');
     points = $(".progress");
   } else {
     console.log('hiding upvote-bar');
