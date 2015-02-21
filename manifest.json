@@ -8,13 +8,21 @@
   "permissions": [
     "storage"
   ],
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
   "browser_action": {
     "name": "bring back heart",
     "icons": ["img/icon.png"],
     "default_icon": "img/icon.png"
   },
+  "background": {
+    "scripts": ["event.js"],
+    "persistent": false
+  },
   "content_scripts": [{
-    "css": ["background.css", "bootstrap.css"],
+    "css": ["bootstrap.css"],
     "js": ["lib/jquery.js", "background.js"],
     "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*"]
   }],
