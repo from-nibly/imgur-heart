@@ -22,7 +22,8 @@ options['op-color'] = "#85BF25";
 chrome.storage.sync.get(options, function(data) {
   var keys = Object.keys(data);
   keys.forEach(function(elm, index) {
-    options[elm] = (data[elm] == "" || data[elm] == undefined ? options[elm] : data[elm]);
+    console.log('retrieved', elm, data[elm]);
+    options[elm] = (data[elm] === "" || data[elm] === undefined ? options[elm] : data[elm]);
   });
 
 
@@ -32,6 +33,10 @@ chrome.storage.sync.get(options, function(data) {
   }
   if (options['green-heart'] == true) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
+  }
+
+  for (var x in options) {
+    console.log(x, ":", options[x]);
   }
 });
 
