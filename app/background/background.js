@@ -209,7 +209,8 @@ function API(key) {
   function getThing(imageId, type, thing, callback) {
     var cached = getCachedObject(imgageId);
     if (cached[thing]) {
-      return cached[thing];
+      callback(cached[thing]);
+      return;
     }
     var apiUrl = 'https://api.imgur.com/3/gallery/' + type + '/' + imageID + '/' + thing;
     $.ajax({
