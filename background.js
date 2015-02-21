@@ -28,7 +28,7 @@ chrome.storage.sync.get(options, function(data) {
       generateTags();
     }, 500);
   }
-  if (options['greenheart'] == true) {
+  if (options['green-heart'] == true) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
   }
 });
