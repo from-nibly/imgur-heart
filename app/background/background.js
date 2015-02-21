@@ -19,6 +19,9 @@ options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
 
 var api = new API("de391aff98092db");
+var apiKey = "de391aff98092db";
+var imageID;
+var imageType;
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -66,28 +69,11 @@ function generateTags() {
 
   //so we just grab the instance of api.  (we need to keep the same instance for the cache to work)
 
-  //first we need the image id
-  var imageID;
-  if (window.location.href.indexOf("https") > -1) {
-    var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
-  } else {
-    var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
-  }
 
-
-  //then we need the type of image we are grabbing (gallery or image)
-
-  var type;
-
-  if ($("body").html().indexOf("album-image") > -1) {
-    type = 'album';
-  } else {
-    type = 'image';
-  }
   //we can call this as many times as we want and it will just get the cache if it exists.
   //no more unexplained extra api calls. :)
   //also less messy code in our business logic.
-  api.getTags(imageID, type, function(result) {
+  api.getTags(imageID, imageType, function(result) {
     console.log('results from getting tags', result);
     var holder = $(".tag-holder");
     console.log('checking holder', holder);
@@ -99,6 +85,23 @@ function generateTags() {
       holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
     }
   });
+}
+
+function getImageProperties() {
+
+  if (window.location.href.indexOf("https") > -1) {
+    imageID = window.location.href.replace("https://imgur.com/gallery/", "");
+  } else {
+    imageID = window.location.href.replace("http://imgur.com/gallery/", "");
+  }
+
+  if ($("body").html().indexOf("album-image") > -1) {
+    imageType = "album";
+  } else {
+    imageType = "image";
+  }
+
+
 }
 
 function update() {
@@ -121,18 +124,7 @@ var downs;
 
 function updateVoteBar() {
   window.setTimeout(function() {
-    if (window.location.href.indexOf("https") > -1) {
-      var imageID = window.location.href.replace("https://imgur.com/gallery/", "");
-    } else {
-      var imageID = window.location.href.replace("http://imgur.com/gallery/", "");
-    }
-    var apiUrl;
-
-    if ($("body").html().indexOf("album-image") > -1) {
-      apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/votes'
-    } else {
-      apiUrl = 'https://api.imgur.com/3/gallery/image/' + imageID + '/votes'
-    }
+    var apiUrl = 'https://api.imgur.com/3/gallery/' + imageType + '/' + imageID + '/votes';
 
     $.ajax({
       type: "GET",
@@ -140,7 +132,7 @@ function updateVoteBar() {
       dataType: 'json',
       async: true,
       headers: {
-        "Authorization": " Client-ID " + "de391aff98092db"
+        "Authorization": " Client-ID " + apiKey
       },
       success: function(result) {
 
@@ -167,6 +159,7 @@ function updateVoteBar() {
 }
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
+  getImageProperties();
   updateVoteBar();
   generateTags();
 });
