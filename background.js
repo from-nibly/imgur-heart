@@ -12,7 +12,8 @@ var options = {};
 options['tag-links'] = true;
 options['green-heart'] = true;
 options['upvote-bar'] = true;
-options['op-faggot'] = false;
+options['op-edit'] = false;
+options['op-text'] = "OP";
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -130,12 +131,13 @@ $("#image").bind("DOMSubtreeModified", function() {
   generateTags();
 });
 $("#captions").bind("DOMSubtreeModified", function() {
-  if (options['op-faggot'] == true) {
+  if (options['op-edit'] == true) {
     $("#captions span.green").each(function( index ) {
       if (this.innerHTML === "OP")
       {
-        this.innerHTML = 'FAGGOT';
-        this.setAttribute('style', 'color: #FF88DD !important;');
+        this.innerHTML = options['op-text'];
+        if (options['op-text'].toLowerCase() === "faggot")
+          this.setAttribute('style', 'color: #FF88DD !important;');
       }
     });
   }
