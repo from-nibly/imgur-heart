@@ -165,6 +165,23 @@ $(document).ready(function(){
   getImageProperties();
   updateVoteBar();
   generateTags();
+  setTimeout(function(){
+    $(".author").attr("data-toggle", "tooltip");
+    $(".author").attr("data-placement", "left");
+    $(".author").hover(
+      function(){
+        //Mouse in
+        userID = $(this).find("a").html();
+        getUserData(userID, this);
+
+    },
+      function(){
+        //Mouse out
+        $(this).tooltip("hide");
+
+    });
+  }, 2500);
+
 });
 
 $("#captions").bind("DOMSubtreeModified", function() {
@@ -237,3 +254,29 @@ function API(key) {
   }
 
 };
+
+//Function to bring up user info on hover
+function getUserData(userID, authorElement){
+
+  var apiUrl = 'https://api.imgur.com/3/account/' + userID;
+  $.ajax({
+    type: "GET",
+    url: apiUrl,
+    dataType: 'json',
+    async: true,
+    headers: {
+      "Authorization": " Client-ID " + apiKey
+    }
+  }).done(function(result) {
+
+    console.log(result.data.reputation);
+    rep =  result.data.reputation;
+    $(authorElement).attr("title","Rep: " + rep);
+    $(authorElement).tooltip();
+    $(authorElement).tooltip("show");
+
+  }).fail(function(message) {
+    console.log('failed to get data', message);
+  });
+
+}
