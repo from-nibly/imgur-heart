@@ -268,10 +268,9 @@ function getUserData(userID, authorElement){
       "Authorization": " Client-ID " + apiKey
     }
   }).done(function(result) {
-
     console.log(result.data.reputation);
     rep =  result.data.reputation;
-    $(authorElement).attr("title","Rep: " + rep);
+    $(authorElement).prop("title","Rep: " + rep);
     $(authorElement).tooltip();
     $(authorElement).tooltip("show");
 
