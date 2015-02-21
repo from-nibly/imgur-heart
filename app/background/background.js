@@ -18,6 +18,8 @@ options['op-edit'] = false;
 options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
 
+var api = new API("de391aff98092db");
+
 // load user settings
 chrome.storage.sync.get(options, function(data) {
   var keys = Object.keys(data);
@@ -185,21 +187,31 @@ function API(key) {
         return cache[x];
       }
     }
+    //if the value is not found make a new one
     var newValue = {};
     newValue.imageId = imgageId;
     cache.push(newValue);
+    //if our cache is too big remove one of the values.
     if (cache.length > 30) {
       cache.shift();
     }
     return newValue;
   }
 
-  this.getTags(imageId, callback) {
+  this.getTags(imageId, type, callback) {
+    return getThing(imageId, type, 'tags', callback)
+  }
+
+  this.getVotes(imageId, type, callback) {
+    return getThing(imageId, type, 'votes', callback)
+  }
+
+  function getThing(imageId, type, thing, callback) {
     var cached = getCachedObject(imgageId);
-    if (cached.tags) {
-      return cached.tags;
+    if (cached[thing]) {
+      return cached[thing];
     }
-    var apiUrl = 'https://api.imgur.com/3/gallery/album/' + imageID + '/tags';
+    var apiUrl = 'https://api.imgur.com/3/gallery/' + type + '/' + imageID + '/' + thing;
     $.ajax({
       type: "GET",
       url: apiUrl,
@@ -209,8 +221,8 @@ function API(key) {
         "Authorization": " Client-ID " + key
       },
       success: function(result) {
-        cached.tags = result;
-        callback(cached.tags);
+        cached[thing] = result;
+        callback(cached[thing]);
       }
     });
   }
