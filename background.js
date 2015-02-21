@@ -128,7 +128,7 @@ function updateVoteBar() {
       dataType: 'json',
       async: true,
       headers: {
-        "Authorization": " Client-ID " + "0c2560fe72fedb9"
+        "Authorization": " Client-ID " + "5dd5059e5f56377"
       },
       success: function(result) {
 
@@ -152,9 +152,6 @@ function updateVoteBar() {
       }
     });
   }, 50);
-}
-window.onload = function() {
-  updateVoteBar();
 }
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
