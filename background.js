@@ -74,7 +74,7 @@ function generateTags() {
       dataType: 'json',
       async: true,
       headers: {
-        "Authorization": " Client-ID " + "5dd5059e5f56377"
+        "Authorization": " Client-ID " + "de391aff98092db"
       },
       success: function(result) {
         var holder = $(".tag-holder");
@@ -129,7 +129,7 @@ function updateVoteBar() {
       dataType: 'json',
       async: true,
       headers: {
-        "Authorization": " Client-ID " + "5dd5059e5f56377"
+        "Authorization": " Client-ID " + "de391aff98092db"
       },
       success: function(result) {
 
