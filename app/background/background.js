@@ -18,8 +18,8 @@ options['op-edit'] = false;
 options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
 
-var api = new API("de391aff98092db");
-var apiKey = "de391aff98092db";
+var api = new API("22dd312bdfad566");
+var apiKey = "22dd312bdfad566";
 var imageID;
 var imageType;
 
@@ -168,6 +168,7 @@ $(document).ready(function() {
   setTimeout(function() {
     $(".author").attr("data-toggle", "tooltip");
     $(".author").attr("data-placement", "left");
+    var userID;
     $(".author").hover(
       function() {
         //Mouse in
@@ -180,6 +181,10 @@ $(document).ready(function() {
         $(this).tooltip("hide");
 
       });
+    //$(".author").find("a").removeAttr("href");
+    //$(".author").find("a").on("click", function(){
+    //  openUserModal(userID);
+    //});
   }, 2500);
 
 });
@@ -276,5 +281,11 @@ function getUserData(userID, authorElement) {
   }).fail(function(message) {
     console.log('failed to get data', message);
   });
+
+}
+
+function openUserModal(userID){
+
+
 
 }
