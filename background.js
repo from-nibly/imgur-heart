@@ -22,7 +22,7 @@ options['op-color'] = "#85BF25";
 chrome.storage.sync.get(options, function(data) {
   var keys = Object.keys(data);
   keys.forEach(function(elm, index) {
-	  options[elm] = (data[elm] == "" || data[elm] == undefined ? options[elm] : data[elm]);
+    options[elm] = (data[elm] == "" || data[elm] == undefined ? options[elm] : data[elm]);
   });
 
 
