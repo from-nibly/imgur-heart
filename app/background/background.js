@@ -18,8 +18,8 @@ options['op-edit'] = false;
 options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
 
-var api = new API("de391aff98092db");
-var apiKey = "de391aff98092db";
+var api = new API("22dd312bdfad566");
+var apiKey = "22dd312bdfad566";
 var imageID;
 var imageType;
 
