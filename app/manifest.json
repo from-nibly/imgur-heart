@@ -3,13 +3,13 @@
 
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
-  "version": "1.10",
-  "options_page": "options.html",
+  "version": "1.14",
+  "options_page": "options/options.html",
   "permissions": [
     "storage"
   ],
   "options_ui": {
-    "page": "options.html"
+    "page": "options/options.html"
   },
   "browser_action": {
     "name": "bring back heart",
@@ -17,12 +17,12 @@
     "default_icon": "img/icon.png"
   },
   "background": {
-    "scripts": ["event.js"],
+    "scripts": ["options/event.js"],
     "persistent": false
   },
   "content_scripts": [{
-    "css": ["background.css", "bootstrap.css"],
-    "js": ["lib/jquery.js", "background.js"],
+    "css": ["background/background.css", "lib/css/bootstrap.css"],
+    "js": ["lib/js/jquery.js", "background/background.js", "lib/js/bootstrap.min.js"],
     "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*", "http://imgur.com/t/*", "https://imgur.com/t/*", "http://*.imgur.com/t/*", "https://*.imgur.com/t/*", "http://imgur.com/topic/*", "https://imgur.com/topic/*", "http://*.imgur.com/topic/*", "https://*.imgur.com/topic/*"]
   }],
   "web_accessible_resources": [

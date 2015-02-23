@@ -13,17 +13,23 @@ function save_options() {
     var check = $(this);
     obj[$(this).attr('id')] = $(this).prop("checked");
 
-	chrome.storage.sync.set(obj);
+    chrome.storage.sync.set(obj);
+    console.log('saving', obj);
   });
   $('#options-list input[type="text"]').each(function() {
     var obj = {};
     var value = $(this).val();
     obj[$(this).attr('id')] = value;
-	chrome.storage.sync.set(obj);
+    chrome.storage.sync.set(obj);
+    console.log('saving', obj);
   });
 
   $('#status').text("Saved").slideDown();
-  setTimeout(function() {$('#status').slideUp(function() {$(this).text("");})}, 3000);
+  setTimeout(function() {
+    $('#status').slideUp(function() {
+      $(this).text("");
+    })
+  }, 3000);
 }
 
 // Restore options from chrome.storage
