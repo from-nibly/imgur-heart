@@ -170,7 +170,7 @@ function API(key) {
 
   function getCachedObject(imgageId) {
     for (var x in imageCache) {
-      if (imageCache[x].imageId === imgageId) {
+      if (imageCache[x].imageId == imgageId) {
         return imageCache[x];
       }
     }
@@ -187,7 +187,7 @@ function API(key) {
 
   function getCachedUser(userID) {
     for (var x in userCache) {
-      if (userCache[x].userID === userID) {
+      if (userCache[x].userID == userID) {
         return userCache[x];
       }
     }
@@ -195,6 +195,7 @@ function API(key) {
     var newValue = {};
     newValue.userID = userID;
     userCache.push(newValue);
+
     //if our cache is too big remove one of the values.
     if (userCache.length > 30) {
       userCache.shift();
