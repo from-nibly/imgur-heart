@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 // Opens options page when toolbar icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
-  var optionsUrl = chrome.extension.getURL('options.html');
+  var optionsUrl = chrome.extension.getURL('options/options.html');
   chrome.tabs.query({
     url: optionsUrl
   }, function(tabs) {
