@@ -124,31 +124,20 @@ var downs;
 
 function updateVoteBar() {
   window.setTimeout(function() {
-    var apiUrl = 'https://api.imgur.com/3/gallery/' + imageType + '/' + imageID + '/votes';
+	api.getVotes(imageID, imageType, function(result) {
+      ups = result.data.ups;
+      downs = result.data.downs;
+      percentUp = ((ups) / (ups + downs)) * 100;
+      percentDown = ((downs) / (ups + downs)) * 100;
 
-    $.ajax({
-      type: "GET",
-      url: apiUrl,
-      dataType: 'json',
-      async: true,
-      headers: {
-        "Authorization": " Client-ID " + apiKey
-      },
-      success: function(result) {
-        ups = result.data.ups;
-        downs = result.data.downs;
-        percentUp = ((ups) / (ups + downs)) * 100;
-        percentDown = ((downs) / (ups + downs)) * 100;
+      $(".progress-bar-success").css("width", percentUp + "%");
 
-        $(".progress-bar-success").css("width", percentUp + "%");
-
-        if (options['upvote-bar-text']) {
-          $(".progress-bar-success").html(ups + "/" + downs);
-        }
-
-        $(".progress-bar-danger").css("width", percentDown + "%");
+      if (options['upvote-bar-text']) {
+        $(".progress-bar-success").html(ups + "/" + downs);
       }
-    });
+
+      $(".progress-bar-danger").css("width", percentDown + "%");
+	});
   }, 50);
 }
 $("#image").bind("DOMSubtreeModified", function() {
