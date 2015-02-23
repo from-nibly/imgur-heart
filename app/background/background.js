@@ -112,13 +112,6 @@ function changeBodyText(color) {
   $('body').css('color', color);
 }
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-  changeBodyText(changes['text-color'].newValue);
-});
-chrome.storage.sync.get('text-color', function(obj) {
-  changeBodyText(obj['text-color']);
-});
-
 var ups;
 var downs;
 
