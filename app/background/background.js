@@ -75,11 +75,14 @@ function generateTags() {
   //also less messy code in our business logic.
 
   api.getTags(imageID, imageType, function(result) {
-    console.log('results from getting tags', result);
+	result.data.tags.sort(function(a,b) {return (b.ups-b.downs)-(a.ups-a.downs);});
+	console.log('results from getting tags', result);
     var holder = $(".tag-holder");
     console.log('checking holder', holder);
     holder.empty();
     for (i = 0; i < result.data.tags.length; i++) {
+	  if(i == 2)
+		break;
       console.log(result.data.tags[i].name);
       tagName = result.data.tags[i].name;
       tagsGenerated = true;
