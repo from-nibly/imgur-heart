@@ -138,6 +138,7 @@ $("#image").bind("DOMSubtreeModified", function() {
   getImageProperties();
   updateVoteBar();
   generateTags();
+  prepUserData();
 
 });
 
@@ -146,27 +147,7 @@ $(document).ready(function() {
   getImageProperties();
   updateVoteBar();
   generateTags();
-  setTimeout(function() {
-    $(".author").attr("data-toggle", "tooltip");
-    $(".author").attr("data-placement", "left");
-    var userID;
-    $(".author").hover(
-      function() {
-        //Mouse in
-        userID = $(this).find("a").html();
-        getUserData(userID, this);
-
-      },
-      function() {
-        //Mouse out
-        $(this).tooltip("hide");
-
-      });
-    //$(".author").find("a").removeAttr("href");
-    //$(".author").find("a").on("click", function(){
-    //  openUserModal(userID);
-    //});
-  }, 2500);
+  prepUserData();
 
 });
 
@@ -183,21 +164,40 @@ $("#captions").bind("DOMSubtreeModified", function() {
 
 function API(key) {
 
-  var cache = [];
+  var imageCache = [];
+
+  var userCache = [];
 
   function getCachedObject(imgageId) {
-    for (var x in cache) {
-      if (cache[x].imageId === imgageId) {
-        return cache[x];
+    for (var x in imageCache) {
+      if (imageCache[x].imageId === imgageId) {
+        return imageCache[x];
       }
     }
     //if the value is not found make a new one
     var newValue = {};
     newValue.imageId = imgageId;
-    cache.push(newValue);
+    imageCache.push(newValue);
     //if our cache is too big remove one of the values.
-    if (cache.length > 30) {
-      cache.shift();
+    if (imageCache.length > 30) {
+      imageCache.shift();
+    }
+    return newValue;
+  }
+
+  function getCachedUser(userID) {
+    for (var x in userCache) {
+      if (userCache[x].userID === userID) {
+        return userCache[x];
+      }
+    }
+    //if the value is not found make a new one
+    var newValue = {};
+    newValue.userID = userID;
+    userCache.push(newValue);
+    //if our cache is too big remove one of the values.
+    if (userCache.length > 30) {
+      userCache.shift();
     }
     return newValue;
   }
@@ -208,6 +208,35 @@ function API(key) {
 
   this.getVotes = function(imageId, type, callback) {
     return getThing(imageId, type, 'votes', callback)
+  }
+
+  this.getRep = function(userID, callback){
+    return getUserData(userID, 'reputation', callback);
+  }
+
+  function getUserData(userID, thing, callback){
+    var cached = getCachedUser(userID);
+    if (cached[thing]) {
+      callback(cached[thing]);
+      console.log('getting from cache');
+      return;
+    }
+    var apiUrl = 'https://api.imgur.com/3/account/' + userID;
+    $.ajax({
+      type: "GET",
+      url: apiUrl,
+      dataType: 'json',
+      async: true,
+      headers: {
+        "Authorization": " Client-ID " + key
+      }
+    }).done(function(result) {
+      console.log('got from api');
+      cached[thing] = result;
+      callback(cached[thing]);
+    }).fail(function(message) {
+      console.log('failed to get data', message);
+    });
   }
 
   function getThing(imageId, type, thing, callback) {
@@ -236,33 +265,46 @@ function API(key) {
   }
 
   this.clear = function() {
-    cache = {};
+    imageCache = {};
+    userCache = {};
   }
 
 };
 
 //Function to bring up user info on hover
 function getUserData(userID, authorElement) {
-
-  var apiUrl = 'https://api.imgur.com/3/account/' + userID;
-  $.ajax({
-    type: "GET",
-    url: apiUrl,
-    dataType: 'json',
-    async: true,
-    headers: {
-      "Authorization": " Client-ID " + apiKey
-    }
-  }).done(function(result) {
+  api.getRep(userID, function(result){
     rep = result.data.reputation;
     $(authorElement).prop("title", "Rep: " + rep);
     $(authorElement).tooltip();
     $(authorElement).tooltip("show");
 
-  }).fail(function(message) {
-    console.log('failed to get data', message);
   });
 
+}
+
+function prepUserData(){
+  setTimeout(function() {
+    $(".author").attr("data-toggle", "tooltip");
+    $(".author").attr("data-placement", "left");
+    var userID;
+    $(".author").hover(
+      function() {
+        //Mouse in
+        userID = $(this).find("a").html();
+        getUserData(userID, this);
+
+      },
+      function() {
+        //Mouse out
+        $(this).tooltip("hide");
+
+      });
+    //$(".author").find("a").removeAttr("href");
+    //$(".author").find("a").on("click", function(){
+    //  openUserModal(userID);
+    //});
+  }, 2500);
 }
 
 function openUserModal(userID){
