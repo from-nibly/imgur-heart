@@ -22,6 +22,7 @@ var api = new API("980724d0ab40dda");
 var apiKey = "980724d0ab40dda";
 var imageID;
 var imageType;
+var gettingRep;
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -134,8 +135,8 @@ function updateVoteBar() {
 }
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
-  console.log("UPDATE " + imageID);
   getImageProperties();
+  console.log("UPDATE " + imageID);
   updateVoteBar();
   generateTags();
   prepUserData();
@@ -238,6 +239,8 @@ function API(key) {
     }).fail(function(message) {
       console.log('failed to get data', message);
     });
+
+
   }
 
   function getThing(imageId, type, thing, callback) {
@@ -274,6 +277,7 @@ function API(key) {
 
 //Function to bring up user info on hover
 function getUserData(userID, authorElement) {
+
   api.getRep(userID, function(result){
     rep = result.data.reputation;
     $(authorElement).prop("title", "Rep: " + rep);
@@ -285,22 +289,26 @@ function getUserData(userID, authorElement) {
 }
 
 function prepUserData(){
+
   setTimeout(function() {
     $(".author").attr("data-toggle", "tooltip");
     $(".author").attr("data-placement", "left");
     var userID;
-    $(".author").hover(
-      function() {
+    $(".author").off();
+    $(".author").on({
+      mouseenter: function() {
         //Mouse in
+        gettingRep = true;
         userID = $(this).find("a").html();
         getUserData(userID, this);
 
       },
-      function() {
+
+      mouseleave: function() {
         //Mouse out
         $(this).tooltip("hide");
 
-      });
+      }});
     //$(".author").find("a").removeAttr("href");
     //$(".author").find("a").on("click", function(){
     //  openUserModal(userID);
