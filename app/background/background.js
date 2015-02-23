@@ -93,11 +93,7 @@ function generateTags() {
 
 function getImageProperties() {
 
-  if (window.location.href.indexOf("https") > -1) {
-    imageID = window.location.href.replace("https://imgur.com/gallery/", "");
-  } else {
-    imageID = window.location.href.replace("http://imgur.com/gallery/", "");
-  }
+  imageID = $('#mainUpArrow').attr('data');
 
   if ($("body").html().indexOf("album-image") > -1) {
     imageType = "album";
