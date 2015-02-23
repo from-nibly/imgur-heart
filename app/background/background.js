@@ -92,9 +92,10 @@ function generateTags() {
       tagsGenerated = true;
       holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
     }
+    gettingTags = false;
   });
 
-  gettingTags = false;
+
 }
 }
 
