@@ -3,7 +3,7 @@
 
   "name": "imgur heart",
   "description": "Changes the imgur heart color back to green",
-  "version": "1.15",
+  "version": "1.16",
   "options_page": "options/options.html",
   "permissions": [
     "storage"
