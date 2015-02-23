@@ -17,6 +17,9 @@ options['upvote-bar-text'] = true;
 options['op-edit'] = false;
 options['op-text'] = "OP";
 options['op-color'] = "#85BF25";
+options['staff-highlight'] = true;
+options['famous-imgurians'] = true;
+
 
 var api = new API("980724d0ab40dda");
 var apiKey = "980724d0ab40dda";
@@ -25,6 +28,10 @@ var imageType;
 var gettingTags;
 var gettingRep;
 var gettingVotes;
+var staffFamousData;
+
+// read server data
+chrome.storage.local.get("famousPeople", function(data) {staffFamousData = data['famousPeople'];});
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -41,6 +48,10 @@ chrome.storage.sync.get(options, function(data) {
   }
   if (options['green-heart'] == true) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
+  }
+  if(options['staff-highlight'] || options['famous-imgurians']) {
+      console.log(staffFamousData);  
+	  $("#captions").bind("DOMNodeInserted", function(event) {checkFamous(event)});// checkFamous(event));
   }
 
   for (var x in options) {
@@ -108,6 +119,43 @@ function getImageProperties() {
     imageType = "image";
   }
 
+
+}
+
+// is called when a comment is inserted into the dom
+function checkFamous(event) {
+  var comment = $(event.target);
+  if(!comment.hasClass("comment"))
+    return false;
+  comment = comment.find("> .caption > .usertext > .author");
+  var username = comment.children().first().attr('href');
+  if(!username)
+	  return;
+  username = username.substr(username.lastIndexOf('/')+1);
+  if(options['famous-imgurians']) {
+	for(var i = 0; i < staffFamousData['famousImgurians'].length; i++) {
+	  if(staffFamousData['famousImgurians'][i].username == username) {
+		if(comment.children(':nth-child(2)').text() == "OP")
+		  var appendie = comment.children(':nth-child(2)');
+		else
+		  var appendie = comment.children().first();
+		appendie.after(" <span class='green'>Known for: </span>"+staffFamousData['famousImgurians'][i].famousFor + ";");
+		break;
+      }
+	} 
+  }
+  if(options['staff-highlight']) {
+	for(var i = 0; i < staffFamousData['staffMembers'].length; i++) {
+	  if(staffFamousData['staffMembers'][i] == username) {
+		if(comment.children(':nth-child(2)').text() == "OP")
+		  var appendie = comment.children(':nth-child(2)');
+		else
+		  var appendie = comment.children().first();
+		appendie.after(" <span class='green'>Staff</span>");
+		break;
+      }
+	} 
+  }
 
 }
 

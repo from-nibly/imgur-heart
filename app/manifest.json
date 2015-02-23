@@ -20,13 +20,13 @@
     "default_icon": "img/icon.png"
   },
   "background": {
-    "scripts": ["options/event.js"],
+    "scripts": ["lib/js/jquery.js" ,"options/event.js"],
     "persistent": false
   },
   "content_scripts": [{
     "css": ["background/background.css", "lib/css/bootstrap.css"],
     "js": ["lib/js/jquery.js", "background/background.js", "lib/js/bootstrap.min.js"],
-    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*", "http://imgur.com/t/*/*", "https://imgur.com/t/*/*", "http://*.imgur.com/t/*/*", "https://*.imgur.com/t/*/*", "http://imgur.com/topic/*/*", "https://imgur.com/topic/*/*", "http://*.imgur.com/topic/*/*", "https://*.imgur.com/topic/*/*"]
+    "matches": ["http://imgur.com/gallery/*", "https://imgur.com/gallery/*", "http://*.imgur.com/gallery/*", "https://*.imgur.com/gallery/*", "http://imgur.com/t/*/*", "https://imgur.com/t/*/*", "http://*.imgur.com/t/*/*", "https://*.imgur.com/t/*/*", "http://imgur.com/topic/*/*", "https://imgur.com/topic/*/*", "http://*.imgur.com/topic/*/*", "https://*.imgur.com/topic/*/*", "http://anton-portfolio.info/*"]
   }],
   "web_accessible_resources": [
     "img/sprites.png",
