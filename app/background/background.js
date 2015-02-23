@@ -93,8 +93,7 @@ function generateTags() {
 
 function getImageProperties() {
 
-  imageID = $('#mainUpArrow').attr('data');
-
+  imageID = document.URL.substr(document.URL.lastIndexOf('/')+1);
   if ($("body").html().indexOf("album-image") > -1) {
     imageType = "album";
   } else {
@@ -135,6 +134,7 @@ function updateVoteBar() {
 }
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
+  console.log("UPDATE " + imageID);
   getImageProperties();
   updateVoteBar();
   generateTags();
