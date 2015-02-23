@@ -22,7 +22,9 @@ var api = new API("980724d0ab40dda");
 var apiKey = "980724d0ab40dda";
 var imageID;
 var imageType;
+var gettingTags;
 var gettingRep;
+var gettingVotes;
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -74,11 +76,12 @@ function generateTags() {
   //we can call this as many times as we want and it will just get the cache if it exists.
   //no more unexplained extra api calls. :)
   //also less messy code in our business logic.
-
-  api.getTags(imageID, imageType, function(result) {
-	result.data.tags.sort(function(a,b) {return (b.ups-b.downs)-(a.ups-a.downs);});
-	console.log('results from getting tags', result);
-    var holder = $(".tag-holder");
+  if(gettingTags != true){
+    gettingTags = true;
+    api.getTags(imageID, imageType, function(result) {
+  	result.data.tags.sort(function(a,b) {return (b.ups-b.downs)-(a.ups-a.downs);});
+  	console.log('results from getting tags', result);
+      var holder = $(".tag-holder");
     console.log('checking holder', holder);
     holder.empty();
     for (i = 0; i < result.data.tags.length; i++) {
@@ -90,6 +93,9 @@ function generateTags() {
       holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
     }
   });
+
+  gettingTags = false;
+}
 }
 
 function getImageProperties() {
@@ -116,8 +122,10 @@ var ups;
 var downs;
 
 function updateVoteBar() {
+  if(gettingVotes != true){
+    gettingVotes = true;
   window.setTimeout(function() {
-	api.getVotes(imageID, imageType, function(result) {
+	  api.getVotes(imageID, imageType, function(result) {
       ups = result.data.ups;
       downs = result.data.downs;
       percentUp = ((ups) / (ups + downs)) * 100;
@@ -130,12 +138,14 @@ function updateVoteBar() {
       }
 
       $(".progress-bar-danger").css("width", percentDown + "%");
+      gettingVotes = false;
 	});
   }, 50);
 }
+}
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
-  getImageProperties();
+  getImageProperties(); //No API Calls
   console.log("UPDATE " + imageID);
   updateVoteBar();
   generateTags();
@@ -145,8 +155,8 @@ $("#image").bind("DOMSubtreeModified", function() {
 
 $(document).ready(function() {
   tagsGenerated = false;
-  getImageProperties();
-  updateVoteBar();
+  getImageProperties(); //No API Calls
+  updateVoteBar(); //1 API Call
   generateTags();
   prepUserData();
 
@@ -233,11 +243,11 @@ function API(key) {
         "Authorization": " Client-ID " + key
       }
     }).done(function(result) {
-      console.log('got from api');
+      console.log('got user data from api');
       cached[thing] = result;
       callback(cached[thing]);
     }).fail(function(message) {
-      console.log('failed to get data', message);
+      console.log('failed to get user data', message);
     });
 
 
@@ -260,11 +270,11 @@ function API(key) {
         "Authorization": " Client-ID " + key
       }
     }).done(function(result) {
-      console.log('got from api');
+      console.log('got '+thing+' data from api');
       cached[thing] = result;
       callback(cached[thing]);
     }).fail(function(message) {
-      console.log('failed to get data', message);
+      console.log('failed to get image data', message);
     });
   }
 
