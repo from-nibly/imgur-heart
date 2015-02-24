@@ -50,8 +50,11 @@ chrome.storage.sync.get(options, function(data) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
   }
   if(options['staff-highlight'] || options['famous-imgurians']) {
-      console.log(staffFamousData);  
-	  $("#captions").bind("DOMNodeInserted", function(event) {checkFamous(event)});// checkFamous(event));
+      console.log(staffFamousData);
+	  $("#captions").bind("DOMNodeInserted", function(event) {
+      checkFamous(event);
+      prepUserData(event);
+      });
   }
 
   for (var x in options) {
@@ -142,7 +145,7 @@ function checkFamous(event) {
 		appendie.after(" <span class='green'>Known for: </span>"+staffFamousData['famousImgurians'][i].famousFor + ";");
 		break;
       }
-	} 
+	}
   }
   if(options['staff-highlight']) {
 	for(var i = 0; i < staffFamousData['staffMembers'].length; i++) {
@@ -154,7 +157,7 @@ function checkFamous(event) {
 		appendie.after(" <span class='green'>Staff</span>");
 		break;
       }
-	} 
+	}
   }
 
 }
@@ -347,14 +350,17 @@ function getUserData(userID, authorElement) {
 
 }
 
-function prepUserData(){
+function prepUserData(event){
+  var comment = $(event.target);
+  if(!comment.hasClass("comment"))
+    return false;
+  comment = comment.find("> .caption > .usertext > .author");
 
-  setTimeout(function() {
-    $(".author").attr("data-toggle", "tooltip");
-    $(".author").attr("data-placement", "left");
+    comment.attr("data-toggle", "tooltip");
+    comment.attr("data-placement", "left");
     var userID;
-    $(".author").off();
-    $(".author").on({
+    comment.off();
+    comment.on({
       mouseenter: function() {
         //Mouse in
         gettingRep = true;
@@ -372,7 +378,6 @@ function prepUserData(){
     //$(".author").find("a").on("click", function(){
     //  openUserModal(userID);
     //});
-  }, 2500);
 }
 
 function openUserModal(userID){
