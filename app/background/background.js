@@ -52,7 +52,7 @@ chrome.storage.sync.get(options, function(data) {
   if(options['staff-highlight'] || options['famous-imgurians']) {
       console.log(staffFamousData);
 	  $("#captions").bind("DOMNodeInserted", function(event) {
-      checkFamous(event);
+      //checkFamous(event);
       prepUserData(event);
       });
   }
@@ -342,10 +342,11 @@ function getUserData(userID, authorElement) {
 
   api.getRep(userID, function(result){
     rep = result.data.reputation;
+    $(authorElement).attr("data-toggle", "tooltip");
+    $(authorElement).attr("data-placement", "left");
     $(authorElement).prop("title", "Rep: " + rep);
     $(authorElement).tooltip();
     $(authorElement).tooltip("show");
-
   });
 
 }
@@ -354,10 +355,7 @@ function prepUserData(event){
   var comment = $(event.target);
   if(!comment.hasClass("comment"))
     return false;
-  comment = comment.find("> .caption > .usertext > .author");
-
-    comment.attr("data-toggle", "tooltip");
-    comment.attr("data-placement", "left");
+    comment = comment.find("> .caption > .usertext > .author");
     var userID;
     comment.off();
     comment.on({
@@ -371,7 +369,10 @@ function prepUserData(event){
 
       mouseleave: function() {
         //Mouse out
-        $(this).tooltip("hide");
+        setTimeout(function(){
+          $(this).tooltip("hide");
+        }, 100);
+
 
       }});
     //$(".author").find("a").removeAttr("href");
