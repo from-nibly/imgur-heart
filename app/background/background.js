@@ -5,7 +5,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-console.log('imgur heart is loading');
+console.log('Loading Imgur<3');
 
 var options = {};
 // default settings
@@ -20,7 +20,6 @@ options['op-color'] = "#85BF25";
 options['staff-highlight'] = true;
 options['famous-imgurians'] = true;
 
-
 var api = new API("980724d0ab40dda");
 var apiKey = "980724d0ab40dda";
 var imageID;
@@ -30,8 +29,6 @@ var gettingRep;
 var gettingVotes;
 var staffFamousData;
 
-// read server data
-chrome.storage.local.get("famousPeople", function(data) {staffFamousData = data['famousPeople'];});
 
 // load user settings
 chrome.storage.sync.get(options, function(data) {
@@ -49,16 +46,22 @@ chrome.storage.sync.get(options, function(data) {
   if (options['green-heart'] == true) {
     $('head').append('<link rel="stylesheet" href="' + chrome.extension.getURL('css/greenheart.css') + '" />');
   }
-  if(options['staff-highlight'] || options['famous-imgurians']) {
-      console.log(staffFamousData);
-	  $("#captions").bind("DOMNodeInserted", function(event) {
-      //checkFamous(event);
-      prepUserData(event);
-      });
-  }
 
   for (var x in options) {
     console.log(x, ":", options[x]);
+  }
+});
+
+// read server data
+chrome.runtime.sendMessage({method: "getFamous"}, function(response) {
+  staffFamousData = JSON.parse(response.status);
+  if(options['staff-highlight'] || options['famous-imgurians']) {
+    var caps = $("#captions").find(".comment");
+    $("#captions").load($(this).bind("DOMNodeInserted", function(event) {checkFamous(event)}));
+    for(var i = 0; i < caps.length; i++) {
+      var commentSingle = {"target": caps[i]};
+      checkFamous(commentSingle);
+    }
   }
 });
 
@@ -93,36 +96,31 @@ function generateTags() {
   if(gettingTags != true){
     gettingTags = true;
     api.getTags(imageID, imageType, function(result) {
-  	result.data.tags.sort(function(a,b) {return (b.ups-b.downs)-(a.ups-a.downs);});
-  	console.log('results from getting tags', result);
+  	  result.data.tags.sort(function(a,b) {return (b.ups-b.downs)-(a.ups-a.downs);});
+  	  console.log('results from getting tags', result);
       var holder = $(".tag-holder");
-    console.log('checking holder', holder);
-    holder.empty();
-    for (i = 0; i < result.data.tags.length; i++) {
-	  if(i == 2)
-		break;
-      console.log(result.data.tags[i].name);
-      tagName = result.data.tags[i].name;
-      tagsGenerated = true;
-      holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
-    }
-    gettingTags = false;
-  });
-
-
-}
+      console.log('checking holder', holder);
+      holder.empty();
+      for (i = 0; i < result.data.tags.length; i++) {
+	    if(i == 2)
+		  break;
+        console.log(result.data.tags[i].name);
+        tagName = result.data.tags[i].name;
+        tagsGenerated = true;
+        holder.append('<br><a class="tag-link" href="/t/' + tagName + '">' + tagName + '</a>');
+      }
+      gettingTags = false;
+    });
+  }
 }
 
 function getImageProperties() {
-
   imageID = document.URL.substr(document.URL.lastIndexOf('/')+1);
   if ($("body").html().indexOf("album-image") > -1) {
     imageType = "album";
   } else {
     imageType = "image";
   }
-
-
 }
 
 // is called when a comment is inserted into the dom
@@ -133,7 +131,7 @@ function checkFamous(event) {
   comment = comment.find("> .caption > .usertext > .author");
   var username = comment.children().first().attr('href');
   if(!username)
-	  return;
+    return;
   username = username.substr(username.lastIndexOf('/')+1);
   if(options['famous-imgurians']) {
 	for(var i = 0; i < staffFamousData['famousImgurians'].length; i++) {
@@ -142,7 +140,7 @@ function checkFamous(event) {
 		  var appendie = comment.children(':nth-child(2)');
 		else
 		  var appendie = comment.children().first();
-		appendie.after(" <span class='green'>Known for: </span>"+staffFamousData['famousImgurians'][i].famousFor + ";");
+		appendie.after(" <span class='green'>Known for</span> - "+staffFamousData['famousImgurians'][i].famousFor + ";");
 		break;
       }
 	}
@@ -190,10 +188,10 @@ function updateVoteBar() {
       }
 
       $(".progress-bar-danger").css("width", percentDown + "%");
-      gettingVotes = false;
-	});
-  }, 50);
-}
+        gettingVotes = false;
+	  });
+    }, 50);
+  }
 }
 $("#image").bind("DOMSubtreeModified", function() {
   tagsGenerated = false;
@@ -204,6 +202,8 @@ $("#image").bind("DOMSubtreeModified", function() {
   prepUserData();
 
 });
+
+
 
 $(document).ready(function() {
   tagsGenerated = false;

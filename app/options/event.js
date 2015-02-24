@@ -8,12 +8,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 function startup(details) {
-  $.getJSON("http://anton-portfolio.info:3000/", function(data) {
+  $.getJSON("http://anton-portfolio.info:8080/", function(data) {
 	console.log("Imgur<3 booting");
 	console.log("Data from server: ");
 	console.log(data);
-	data = {famousPeople: data};
-	chrome.storage.local.set(data, function(data) {console.log("saved");});
+	localStorage['famous'] = JSON.stringify(data);
   });
 }
 
@@ -21,6 +20,14 @@ function startup(details) {
 chrome.runtime.onStartup.addListener(startup());
 // Fires on updates and installation
 chrome.runtime.onInstalled.addListener(startup());
+
+// listens for messages from contentScripts
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+	if(request.method == "getFamous")
+		sendResponse({status: localStorage['famous']});
+	else
+		sendResponse({});
+});
 
 // Opens options page when toolbar icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
