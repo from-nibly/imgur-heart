@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "imgur heart",
-  "description": "Changes the imgur heart color back to green",
+  "description": "Adds features like highlighting famous imgurians, returning the bandvagon bar to the people and turning the hear back to the heartwarming green that we know and love",
   "version": "1.16",
   "options_page": "options/options.html",
   "permissions": [

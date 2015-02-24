@@ -140,7 +140,7 @@ function checkFamous(event) {
 		  var appendie = comment.children(':nth-child(2)');
 		else
 		  var appendie = comment.children().first();
-		appendie.after(" <span class='green'>Known for</span> - "+staffFamousData['famousImgurians'][i].famousFor + ";");
+		appendie.after(" <span class='green'>Known for</span> "+staffFamousData['famousImgurians'][i].famousFor + " :");
 		break;
       }
 	}
