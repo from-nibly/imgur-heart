@@ -80,6 +80,8 @@ $(document).ready(function() {
   var button = $(".favorite-image");
   points.after('<div class="tag-holder"></div>');
   console.log('checking points', points);
+  
+  $(".options .nodisplay").removeClass("nodisplay");
 
 });
 
